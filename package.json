@@ -1,0 +1,26 @@
+{
+  "name": "pantry-proxy-api",
+  "version": "1.0.0",
+  "description": "Pantry Proxy API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AngeloMafilas/pantry-proxy-api.git"
+  },
+  "author": "Angelo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AngeloMafilas/pantry-proxy-api/issues"
+  },
+  "homepage": "https://github.com/AngeloMafilas/pantry-proxy-api#readme",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "path": "^0.12.7"
+  }
+}
