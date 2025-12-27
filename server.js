@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const PANTRY_ID = process.env.PANTRY_ID;
 
-// ✅ Safety check in case the .env file is missing or invalid
+// ✅ Safety check for Pantry ID
 if (!PANTRY_ID) {
   console.error('❌ Error: PANTRY_ID is not defined in your .env file');
   process.exit(1);
@@ -22,20 +22,17 @@ const PANTRY_API_BASE_URL = `https://getpantry.cloud/apiv1/pantry/${PANTRY_ID}/b
 app.use(cors());
 app.use(express.json());
 
-// ✅ Serve static files (like CSS, JS, etc.)
-app.use(express.static(path.join(__dirname)));
+// ✅ Serve static front-end files from quiz-ui
+app.use(express.static(path.join(__dirname, 'quiz-ui')));
 
-// ✅ Root route — serves your index.html
+// ✅ Root route — serves index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'quiz-ui', 'index.html'));
 });
 
-// ✅ Favicon route (optional)
-app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'favicon.ico'));
-});
+// ✅ Pantry API endpoints
 
-// ✅ GET — Fetch data from a specific basket
+// GET — Fetch basket data
 app.get('/:basketName', async (req, res) => {
   try {
     const { basketName } = req.params;
@@ -46,7 +43,7 @@ app.get('/:basketName', async (req, res) => {
   }
 });
 
-// ✅ POST — Add new data to a specific basket
+// POST — Add new data to basket
 app.post('/:basketName', async (req, res) => {
   try {
     const { basketName } = req.params;
@@ -58,7 +55,7 @@ app.post('/:basketName', async (req, res) => {
   }
 });
 
-// ✅ PUT — Update data in a specific basket
+// PUT — Update basket data
 app.put('/:basketName', async (req, res) => {
   try {
     const { basketName } = req.params;
@@ -70,7 +67,7 @@ app.put('/:basketName', async (req, res) => {
   }
 });
 
-// ✅ DELETE — Clear a basket
+// DELETE — Clear a basket
 app.delete('/:basketName', async (req, res) => {
   try {
     const { basketName } = req.params;
@@ -79,6 +76,11 @@ app.delete('/:basketName', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// ✅ Optional: SPA routing fallback (if using client-side routing)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'quiz-ui', 'index.html'));
 });
 
 // ✅ Start the server
